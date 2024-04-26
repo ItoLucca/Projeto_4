@@ -1,41 +1,41 @@
 #ifndef PROJETO_2_BANCO_H
 #define PROJETO_2_BANCO_H
 
+#define MAX_CLIENTES 1000
 #define MAX_NOME 40
-#define MAX_CPF 11
-#define MAX_
+#define MAX_CPF 12
+#define MAX_TIPO_DE_CONTA 6
+#define MAX_SENHA_USUARIO 50
 
-
-int Contador = 0;
 
 typedef struct {
-    char Nome[40];
-    char CPF[11];
-    char tipo_de_conta[5];
+    char Nome[MAX_NOME];
+    char CPF[MAX_CPF];
+    char tipo_de_conta[MAX_TIPO_DE_CONTA];
     int valor_inicial;
-    int senha_do_usuario;
+    char senha_do_usuario[MAX_SENHA_USUARIO];
 } banco;
 
-typedef struct {
-    char Nome[100];
-    char CPF[11];
-    int Saldo[100000];
-} cliente;
+//typedef struct {
+//    char Nome[100];
+//    char CPF[11];
+//    int Saldo[100000];
+//} cliente;
 
 
-void Novo_Cliente( banco lista_B[], int*pos);
+int Novo_Cliente( banco lista_B[], int *pos);
 
-void Apaga_Cliente( banco lista_B[], int*pos);
+int Apaga_Cliente( banco lista_B[], int *pos);
 
-void Listar_Cliente( banco lista_B[], int pos);
+int Listar_Cliente( banco lista_B[], int *pos);
 
-void Debito_Cliente( banco lista_B[], int*pos);
+int Debito_Cliente( banco lista_B[], int *pos);
 
-void Desposito_Cliente( banco lista_B[], int*pos);
+int Desposito_Cliente( banco lista_B[], int *pos);
 
-void Extrato_Cliente( banco lista_B[], int*pos);
+int Extrato_Cliente( banco lista_B[], int *pos);
 
-void Transferencias_Clientes( banco lista_B[], int*pos);
+int Transferencias_Clientes( banco lista_B[], int *pos);
 
 
 #endif //PROJETO_2_BANCO_H
