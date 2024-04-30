@@ -37,7 +37,7 @@ int Apaga_Cliente( banco lista_B[], int*pos){
         scanf("%s", senha_excluido);
 
         for(int i = 0 ; i < *pos ; i++){
-            if(strcmp(CPF_excluido, lista_B[i].CPF) == 0 && strcmp(senha_excluido, lista_B[i].senha_do_usuario)){
+            if(strcmp(CPF_excluido, lista_B[i].CPF) == 0 && strcmp(senha_excluido, lista_B[i].senha_do_usuario) == 0){
                 lista_B[i] = lista_B[i + 1];
                 printf(" -_-_- Cliente deletado com sucesso!! -_-_-\n");
             }
@@ -77,15 +77,15 @@ int Debito_Cliente( banco lista_B[], int *pos){
     int valor_debito_plus;
 
     if(*pos > 0){
-        printf("digite o CPF a ser excluido: \n");
+        printf("digite o CPF a ser debitado: \n");
         scanf("%s", CPF_debito);
 
-        printf("digite a senha do CPF a ser excluido: \n");
+        printf("digite a senha do CPF a ser debitado: \n");
         scanf("%s", senha_debito);
 
         for(int i = 0 ; i < *pos ; i++){
-            if(strcmp(CPF_debito, lista_B[i].CPF) == 0 && strcmp(senha_debito, lista_B[i].senha_do_usuario)){
-                if(lista_B[i].tipo_de_conta == "comum"){
+            if(strcmp(CPF_debito, lista_B[i].CPF) == 0 && strcmp(senha_debito, lista_B[i].senha_do_usuario) == 0){
+                if(strcmp(lista_B[i].tipo_de_conta, "comum") == 0){
                     if(lista_B[i].valor_inicial >= -1000){
                         printf("digite a quantia a ser debitada: \n");
                         scanf("%d", &valor_debito_comum);
@@ -100,7 +100,7 @@ int Debito_Cliente( banco lista_B[], int *pos){
                         printf("O seu saldo atual não permite fazer o debito desejado.. \n");
                     }
                 }
-                else if(lista_B[i].tipo_de_conta == "plus"){
+                else if(strcmp(lista_B[i].tipo_de_conta, "plus") == 0){
                     if(lista_B[i].valor_inicial >= -5000){
                         printf("digite a quantia a ser debitada: \n");
                         scanf("%d", &valor_debito_plus);
