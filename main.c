@@ -29,23 +29,35 @@ int main(){
         case 2:
             Apaga_Cliente(lista_B, &pos);
             break;
-        
+
         case 3:
             Listar_Cliente(lista_B, &pos);
             break;
-        case 4:
-            Debito_Cliente(lista_B, &pos);
-            break;
+
+        case 4:   
+            {
+                transacao historico;
+                Debito_Cliente(lista_B, &pos, &historico);
+                break;
+            }
+        
         case 5:
-            Desposito_Cliente(lista_B, &pos);
-            break;
+            {
+                transacao historico;
+                Desposito_Cliente(lista_B, &pos, &historico);
+                break;
+            }
+    
         case 6:
             Extrato_Cliente(lista_B, &pos);
             break;
+
         case 7:
-            Transferencias_Clientes(lista_B, &pos);
-            break;
-        
+            {
+                transacao historico;
+                Transferencias_Clientes(lista_B, &pos, &historico);
+                break;
+            }
         }
         
     

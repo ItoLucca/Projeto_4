@@ -70,7 +70,7 @@ int Listar_Cliente( banco lista_B[], int *pos){
     }
 }
 
-int Debito_Cliente( banco lista_B[], int *pos){
+int Debito_Cliente( banco lista_B[], int *pos, transacao *historico){
     char CPF_debito[MAX_CPF];
     char senha_debito[MAX_SENHA_USUARIO];
     int valor_debito_comum;
@@ -90,9 +90,13 @@ int Debito_Cliente( banco lista_B[], int *pos){
                         printf("digite a quantia a ser debitada: \n");
                         scanf("%d", &valor_debito_comum);
 
-                        valor_debito_comum = valor_debito_comum * 5 / 100 + valor_debito_comum; 
-
+                        valor_debito_comum = valor_debito_comum * 5 / 100 + valor_debito_comum;
+                  
                         lista_B[i].valor_inicial = lista_B[i].valor_inicial - valor_debito_comum;
+
+                        strcpy(lista_B[i].historico[lista_B[i].num_transacoes].Tipo , "Débito");
+                        lista_B[i].historico[lista_B[i].num_transacoes].valor = valor_debito_comum;
+                        lista_B[i].num_transacoes++;
 
                         printf(" -_-_- Debito feito com sucesso -_-_-  \n");
                     }
@@ -108,6 +112,10 @@ int Debito_Cliente( banco lista_B[], int *pos){
                         valor_debito_plus = valor_debito_plus * 3 / 100 + valor_debito_plus;
 
                         lista_B[i].valor_inicial = lista_B[i].valor_inicial - valor_debito_plus;
+
+                        strcpy(lista_B[i].historico[lista_B[i].num_transacoes].Tipo , "Débito");
+                        lista_B[i].historico[lista_B[i].num_transacoes].valor = valor_debito_plus;
+                        lista_B[i].num_transacoes++;
 
                         printf(" -_-_- Debito feito com sucesso -_-_-  \n");
                     }
@@ -129,7 +137,7 @@ int Debito_Cliente( banco lista_B[], int *pos){
     }
 }
     
-int Desposito_Cliente( banco lista_B[], int *pos){
+int Desposito_Cliente( banco lista_B[], int *pos, transacao *historico){
     char CPF_deposito[MAX_CPF];
     int valor_deposito;
     
@@ -142,6 +150,10 @@ int Desposito_Cliente( banco lista_B[], int *pos){
                 printf("Digite o valor a ser depositado: \n");
                 scanf("%d", &valor_deposito);
 
+                strcpy(lista_B[i].historico[lista_B[i].num_transacoes].Tipo, "Depósito");
+                lista_B[i].historico[lista_B[i].num_transacoes].valor = valor_deposito;
+                lista_B[i].num_transacoes++;
+
                 lista_B[i].valor_inicial = lista_B[i].valor_inicial + valor_deposito;
             }
             else{
@@ -153,10 +165,57 @@ int Desposito_Cliente( banco lista_B[], int *pos){
 }
     
 int Extrato_Cliente( banco lista_B[], int *pos){
+    char CPF_extrato[MAX_CPF];
+    char senha_extrato[MAX_SENHA_USUARIO];
+    char extrato_arquivo[100];
 
+    if(*pos > 0){
+        printf("Digite o CPF do cliente em questao para que seja gerado o extrato: ");
+        scanf("%s", CPF_extrato);
+
+        printf("Digite a senha do cliente em questao para que seja gerado o extrato: ");
+        scanf("%s", senha_extrato); 
+        
+        for(int i = 0 ; i < *pos ; i++){
+            if(strcmp(CPF_extrato, lista_B[i].CPF) == 0 && strcmp(senha_extrato, lista_B[i].senha_do_usuario) == 0){
+            printf("\nGerando extrato para o cliente %s...\n", lista_B[i].Nome);
+                
+                sprintf(extrato_arquivo, "extrato_%s.txt", lista_B[i].CPF);
+                FILE *arquivo = fopen(extrato_arquivo, "w");
+
+                if (arquivo == NULL) {
+                    printf("Erro ao criar o arquivo de extrato.\n");
+                    return 0; 
+                }
+
+                fprintf(arquivo, "Extrato para o cliente: %s\n", lista_B[i].Nome);
+                fprintf(arquivo, "CPF: %s\n", lista_B[i].CPF);
+                fprintf(arquivo, "Tipo de conta: %s\n", lista_B[i].tipo_de_conta);
+                fprintf(arquivo, "Saldo atual: %d\n", lista_B[i].valor_inicial);
+                fprintf(arquivo, "Histórico de transações:\n");
+
+                for (int j = 0; j < lista_B[i].num_transacoes; j++) {
+                    fprintf(arquivo, "Transação %d: Tipo: %s, Valor: %d\n", j + 1, lista_B[i].historico[j].Tipo, lista_B[i].historico[j].valor);
+                }
+
+                fclose(arquivo);
+                printf("Extrato gerado com sucesso. Verifique o arquivo '%s'.\n", extrato_arquivo);
+                return 1;
+            }
+            else{
+                printf("CPF e/ou senha incorreto/s.. \n");
+
+            }
+                
+        }
+    }
+    else{
+        printf("A lista esta vazia.. \n");
+    }
 }
 
-int Transferencias_Clientes( banco lista_B[], int *pos){
+
+int Transferencias_Clientes( banco lista_B[], int *pos, transacao *historico){
     char CPF_origem[MAX_CPF];
     char CPF_destinatario[MAX_CPF];
     char senha_origem[MAX_SENHA_USUARIO];
@@ -179,9 +238,25 @@ int Transferencias_Clientes( banco lista_B[], int *pos){
                         printf("\nDigite o valor a ser transferido: \n");
                         scanf("%d", &valor_transferido);
 
-                        lista_B[i].valor_inicial = lista_B[i].valor_inicial - valor_transferido;
+                        if(valor_transferido > 0){
+                            
+                            strcpy(lista_B[i].historico[lista_B[i].num_transacoes].Tipo, "Transferência Enviada");
+                            lista_B[i].historico[lista_B[i].num_transacoes].valor = valor_transferido;
+                            lista_B[i].num_transacoes++;
 
-                        lista_B[j].valor_inicial = lista_B[j].valor_inicial + valor_transferido;
+                            lista_B[i].valor_inicial -= valor_transferido;
+
+
+                            strcpy(lista_B[j].historico[lista_B[j].num_transacoes].Tipo, "Transferência Recebida");
+                                lista_B[j].historico[lista_B[j].num_transacoes].valor = valor_transferido;
+                                lista_B[j].num_transacoes++;
+
+                                lista_B[j].valor_inicial += valor_transferido;
+
+                        }
+                        else{
+                            printf("O valor trasferido deve ser positivo.. \n");
+                        }
                     }
                     else{
                         printf("CPF ou senha do destinatario invalido.. \n");
