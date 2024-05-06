@@ -192,7 +192,7 @@ int Extrato_Cliente( banco lista_B[], int *pos){
                 fprintf(arquivo, "CPF: %s\n", lista_B[i].CPF);
                 fprintf(arquivo, "Tipo de conta: %s\n", lista_B[i].tipo_de_conta);
                 fprintf(arquivo, "Saldo atual: %d\n", lista_B[i].valor_inicial);
-                fprintf(arquivo, "Histórico de transações:\n");
+                fprintf(arquivo, "Histórico de transacoes:\n");
 
                 for (int j = 0; j < lista_B[i].num_transacoes; j++) {
                     fprintf(arquivo, "Transação %d: Tipo: %s, Valor: %d\n", j + 1, lista_B[i].historico[j].Tipo, lista_B[i].historico[j].valor);
@@ -272,4 +272,37 @@ int Transferencias_Clientes( banco lista_B[], int *pos, transacao *historico){
 
     
 }
+
+int Salvar_conta(banco lista_B[], int *pos){
+    FILE *arquivo = fopen("dados_banco.bin", "wb");
+    
+    if(arquivo == NULL) {
+        printf("Erro ao abrir o arquivo para escrita.. \n");
+        return 0;
+    }
+    else{
+        fwrite(lista_B, sizeof(banco), *pos, arquivo);
+        fclose(arquivo);
+        
+        return 1;
+    }
+    
+}
+
+int Carregar_conta(banco lista_B[], int *pos){
+    FILE *arquivo = fopen("dados_banco.bin", "rb");
+    
+    if(arquivo == NULL) {
+        printf("Erro ao abrir o arquivo para leitura.. \n");
+        return 0;
+    }
+    else{
+        *pos = fread(lista_B, sizeof(banco), MAX_CLIENTES, arquivo);
+        fclose(arquivo);
+
+        return 1;
+    }
+
+}
+
 

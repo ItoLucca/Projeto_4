@@ -38,5 +38,9 @@ int Extrato_Cliente( banco lista_B[], int *pos);
 
 int Transferencias_Clientes( banco lista_B[], int *pos, transacao *historico);
 
+int Salvar_conta(banco lista_B[], int *pos);
+
+int Carregar_conta(banco lista_B[], int *pos);
+
 
 #endif //PROJETO_2_BANCO_H

@@ -1,0 +1,8 @@
+Extrato para o cliente: b
+CPF: 2
+Tipo de conta: plus
+Saldo atual: 12524
+Histórico de transações:
+Transação 1: Tipo: Débito, Valor: 309
+Transação 2: Tipo: Depósito, Valor: 3333
+Transação 3: Tipo: Transferência Envia�, Valor: 500

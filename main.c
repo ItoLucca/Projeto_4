@@ -6,6 +6,11 @@ int main(){
     banco lista_B[MAX_CLIENTES];
     int opcao;
     int pos = 0;
+    int cod;
+
+    cod = Carregar_contatos(lista_B, &pos);
+    if(cod == 1){  
+        pos = 0;
 
     do{
         printf("\nDigite (entre 0 a 7) uma das opcoes abaixo: \n");
@@ -58,7 +63,18 @@ int main(){
                 Transferencias_Clientes(lista_B, &pos, &historico);
                 break;
             }
+        
+        case 0:
+            cod = Salvar_contatos(lista_B, &pos);
+                if (cod != 0) {
+                    printf("Erro ao salvar as tarefas.\n");
+                }
+                printf("___- Programa finalizado!! -___\n");
+                break;
+            
         }
+
+        
         
     
 
