@@ -37,15 +37,15 @@ int Apaga_Cliente( banco lista_B[], int*pos){
         scanf("%s", senha_excluido);
 
         for(int i = 0 ; i < *pos ; i++){
-            if(strcmp(CPF_excluido, lista_B[i].CPF) == 0 && strcmp(senha_excluido, lista_B[i].senha_do_usuario) == 0){
-                lista_B[i] = lista_B[i + 1];
+            if (strcmp(CPF_excluido, lista_B[i].CPF) == 0 && strcmp(senha_excluido, lista_B[i].senha_do_usuario) == 0) {
+                for (int j = i; j < (*pos) - 1; j++) {
+                    lista_B[j] = lista_B[j + 1];
+                }
+                (*pos)--;
                 printf(" -_-_- Cliente deletado com sucesso!! -_-_-\n");
-            }
-            else{
-                printf("Um dos valores apresenta erro ( CPF ou senha do usuario )..\n");
+                return 0;
             }
         }
-        (*pos)--;
     }
     else{
         printf("A lista esta vazia..\n");
@@ -294,6 +294,7 @@ int Carregar_conta(banco lista_B[], int *pos){
     
     if(arquivo == NULL) {
         printf("Erro ao abrir o arquivo para leitura.. \n");
+        *pos = 0;
         return 0;
     }
     else{
