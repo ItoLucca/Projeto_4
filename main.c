@@ -9,9 +9,8 @@ int main(){
     int cod;
 
     cod = Carregar_conta(lista_B, &pos);
-    if(cod == 1){  
 
-        do{
+    do{
             printf("\nDigite (entre 0 a 7) uma das opcoes abaixo: \n");
             printf("1. Adicionar um novo cliente: \n");
             printf("2. Apagar a conta de um cliente: \n");
@@ -79,8 +78,11 @@ int main(){
                 
         
         }while(opcao != 0);
+    //if(cod == 1){  
 
-    } 
+        
+
+    //} 
 
     return 0;
 }

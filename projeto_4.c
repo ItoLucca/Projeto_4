@@ -180,7 +180,7 @@ int Extrato_Cliente( banco lista_B[], int *pos){
             if(strcmp(CPF_extrato, lista_B[i].CPF) == 0 && strcmp(senha_extrato, lista_B[i].senha_do_usuario) == 0){
             printf("\nGerando extrato para o cliente %s...\n", lista_B[i].Nome);
                 
-                sprintf(extrato_arquivo, "extrato_%s.txt", lista_B[i].CPF);
+                sprintf(extrato_arquivo, "extrato_%s%s.txt", lista_B[i].Nome, lista_B[i].CPF);
                 FILE *arquivo = fopen(extrato_arquivo, "w");
 
                 if (arquivo == NULL) {

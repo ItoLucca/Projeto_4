@@ -1,0 +1,7 @@
+Extrato para o cliente: cliente
+CPF: 460
+Tipo de conta: comum
+Saldo atual: 9135
+Histórico de transacoes:
+Transação 1: Tipo: Débito, Valor: 315
+Transação 2: Tipo: Transferência Envia&, Valor: 550
